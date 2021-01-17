@@ -1,2 +1,13 @@
-# Ignore CI docker-compose
+# Ignore files during docker build
+
+# Docker-compose
 docker-compose.yml
+.env
+
+# DockerHub hooks
+hooks
+.dockertags
+
+# Custom configuration for tests
+redis_cache.conf
+nginx.conf
