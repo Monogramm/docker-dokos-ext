@@ -19,7 +19,7 @@ FROM monogramm/docker-dokos:%%DOKOS_VERSION%%-%%VARIANT%%
 
 ARG VERSION=%%VERSION%%
 
-ENV TESSDATA_PREFIX=/home/$DODOCK_USER/tessdata \
+ENV TESSDATA_PREFIX=/home/dodock/tessdata \
     LANG=C.UTF-8 \
     LC_ALL=C
 
@@ -34,10 +34,12 @@ ARG MAUTIC=master
 # Build environment variables
 ENV DODOCK_APP_PROTECTED='frappe erpnext erpnext_autoinstall'
 
+USER root
+
 # Setup Dokos additional plugins
 RUN set -ex; \
-    sudo apt-get update -q; \
-    sudo apt-get install -y --no-install-recommends \
+    apt-get update -q; \
+    apt-get install -y --no-install-recommends \
         ghostscript \
         imagemagick \
         libmagickwand-dev \
@@ -46,9 +48,18 @@ RUN set -ex; \
         libleptonica-dev \
         pkg-config \
     ; \
-    sudo rm -rf /var/lib/apt/lists/*; \
+    rm -rf /var/lib/apt/lists/*; \
     mkdir -p "$TESSDATA_PREFIX"; \
-    sudo chown -R "$DODOCK_USER:$DODOCK_USER" "$TESSDATA_PREFIX" ; \
+    chown -R "dodock:dodock" "$TESSDATA_PREFIX"; \
+    sed -i \
+        -e 's/rights="none" pattern="PDF"/rights="read" pattern="PDF"/g' \
+        /etc/ImageMagick*/policy.xml \
+    ;
+
+USER dodock
+
+# Setup Dokos additional plugins
+RUN set -ex; \
     curl -sS -o "$TESSDATA_PREFIX/eng.traineddata" https://raw.github.com/tesseract-ocr/tessdata/master/eng.traineddata; \
     curl -sS -o "$TESSDATA_PREFIX/equ.traineddata" https://raw.github.com/tesseract-ocr/tessdata/master/equ.traineddata; \
     curl -sS -o "$TESSDATA_PREFIX/osd.traineddata" https://raw.github.com/tesseract-ocr/tessdata/master/osd.traineddata; \
@@ -66,29 +77,25 @@ RUN set -ex; \
     curl -sS -o "$TESSDATA_PREFIX/kor.traineddata" https://raw.github.com/tesseract-ocr/tessdata/master/kor.traineddata; \
     curl -sS -o "$TESSDATA_PREFIX/chi_sim.traineddata" https://raw.github.com/tesseract-ocr/tessdata/master/chi_sim.traineddata; \
     curl -sS -o "$TESSDATA_PREFIX/chi_tra.traineddata" https://raw.github.com/tesseract-ocr/tessdata/master/chi_tra.traineddata; \
-    sudo chmod -R 755 "$TESSDATA_PREFIX" ; \
-    sudo sed -i \
-        -e 's/rights="none" pattern="PDF"/rights="read" pattern="PDF"/g' \
-        /etc/ImageMagick*/policy.xml \
-    ; \
+    chmod -R 755 "$TESSDATA_PREFIX"; \
     tar zxf sites-base.tgz; \
-    install_dokos_app erpnext_autoinstall "${ERPNEXT_AUTOINSTALL_VERSION:-master}" 'https://github.com/Monogramm/erpnext_autoinstall'; \
-    install_dokos_app recod_frappe_devtools "${RECOD_FRAPPE_DEVTOOLS:-master}" 'https://github.com/Monogramm/recod_frappe_devtools'; \
-    install_dokos_app erpnext_ocr "${ERPNEXT_OCR_VERSION:-master}" 'https://github.com/Monogramm/erpnext_ocr'; \
-    install_dokos_app recod_erpnext_design "${RECOD_ERPNEXT_DESIGN:-master}" 'https://github.com/Monogramm/recod_erpnext_design'; \
-    install_dokos_app frappe_pwa "${FRAPPE_PWA:-master}" 'https://github.com/Monogramm/frappe_pwa'; \
-    install_dokos_app erpnext_france "${ERPNEXT_FRANCE:-master}" 'https://github.com/britlog/erpnext_france'; \
-    install_dokos_app mautic "${MAUTIC:-master}" 'https://github.com/dokos-io/mautic'; \
+    install_dokos_app erpnext_autoinstall 'https://github.com/Monogramm/erpnext_autoinstall' "${ERPNEXT_AUTOINSTALL_VERSION:-master}"; \
+    install_dokos_app recod_frappe_devtools 'https://github.com/Monogramm/recod_frappe_devtools' "${RECOD_FRAPPE_DEVTOOLS:-master}"; \
+    install_dokos_app erpnext_ocr 'https://github.com/Monogramm/erpnext_ocr' "${ERPNEXT_OCR_VERSION:-master}"; \
+    install_dokos_app recod_erpnext_design 'https://github.com/Monogramm/recod_erpnext_design' "${RECOD_ERPNEXT_DESIGN:-master}"; \
+    install_dokos_app frappe_pwa 'https://github.com/Monogramm/frappe_pwa' "${FRAPPE_PWA:-master}"; \
+    install_dokos_app erpnext_france 'https://github.com/britlog/erpnext_france' "${ERPNEXT_FRANCE:-master}"; \
+    install_dokos_app mautic 'https://github.com/dokos-io/mautic' "${MAUTIC:-master}"; \
     tar zcf sites-base.tgz sites; \
     rm -rf sites/* ~/.cache
 
 VOLUME \
-    /home/$DODOCK_USER/frappe-bench/apps/erpnext_autoinstall/erpnext_autoinstall/public \
-    /home/$DODOCK_USER/frappe-bench/apps/erpnext_ocr/erpnext_ocr/public \
-    /home/$DODOCK_USER/frappe-bench/apps/recod_erpnext_design/recod_erpnext_design/public \
-    /home/$DODOCK_USER/frappe-bench/apps/frappe_pwa/frappe_pwa/public \
-    /home/$DODOCK_USER/frappe-bench/apps/erpnext_france/erpnext_france/public \
-    /home/$DODOCK_USER/frappe-bench/apps/mautic/mautic/public
+    /home/dodock/dodock-bench/apps/erpnext_autoinstall/erpnext_autoinstall/public \
+    /home/dodock/dodock-bench/apps/erpnext_ocr/erpnext_ocr/public \
+    /home/dodock/dodock-bench/apps/recod_erpnext_design/recod_erpnext_design/public \
+    /home/dodock/dodock-bench/apps/frappe_pwa/frappe_pwa/public \
+    /home/dodock/dodock-bench/apps/erpnext_france/erpnext_france/public \
+    /home/dodock/dodock-bench/apps/mautic/mautic/public
 
 ARG TAG
 ARG VCS_REF
