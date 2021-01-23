@@ -17,6 +17,7 @@ variants=(
 )
 
 min_version='1.3'
+dockerLatest='1.4'
 
 
 # version_greater_or_equal A B returns whether A >= B
@@ -136,6 +137,12 @@ for latest in "${latests[@]}"; do
 					echo "$latest-$variant $latest " > "$dir/.dockertags"
 				else
 					echo "$latest-$variant " > "$dir/.dockertags"
+				fi
+			elif [ "$version" = "v$dockerLatest" ]; then
+				if [ "$variant" = 'slim-buster' ]; then
+					echo "$latest-$variant $version-$variant $variant $latest $version latest " > "$dir/.dockertags"
+				else
+					echo "$latest-$variant $version-$variant $variant " > "$dir/.dockertags"
 				fi
 			else
 				if [ "$variant" = 'slim-buster' ]; then
