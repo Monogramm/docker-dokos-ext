@@ -11,7 +11,7 @@
 
 Extended Docker image for **Dokos** with additional apps.
 
-:construction: **This image is still in development!**
+:warning: **This image is still in beta!**
 
 Additional apps:
 
@@ -37,7 +37,11 @@ Open Source ERP built for the web
 
 [Dockerhub monogramm/docker-dokos-ext](https://hub.docker.com/r/monogramm/docker-dokos-ext/)
 
--   `latest`
+-   Dokos 1.4
+    -   `v1.4`
+
+-   Dokos 1.3
+    -   `v1.3`
 
 ## How to run this image
 
