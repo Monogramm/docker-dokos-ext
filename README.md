@@ -1,65 +1,59 @@
-<!--
-
-Template variables to replace in ALL files:
-* __app_name__: Name of the application
-* __app_owner_slug__: GitHub Owner of the original application
-* __app_slug__: GitHub slug of the original application
-* __app_uppercase_slug__: Uppercase value of the GitHub slug
-* __app_description__: Application description
-* __app_url__: Application URL
-* __app_vendor_name__: Name of the Application vendor
-
-After replacing all variables:
-* Edit `update.sh` to edit how to retrieve the application latest versions and how to generate images
-* Edit `template/docker-compose_*.yml` to configure your Docker environment for CI
-* Edit `template/test` content for DockerHub custom tests
-
--->
-
 [![License: AGPL v3][uri_license_image]][uri_license]
-[![Docs](https://img.shields.io/badge/Docs-Github%20Pages-blue)](https://monogramm.github.io/__app_slug__/)
-[![Build Status](https://travis-ci.org/Monogramm/docker-__app_slug__.svg)](https://travis-ci.org/Monogramm/docker-__app_slug__)
-[![Docker Automated buid](https://img.shields.io/docker/cloud/build/monogramm/docker-__app_slug__.svg)](https://hub.docker.com/r/monogramm/docker-__app_slug__/)
-[![Docker Pulls](https://img.shields.io/docker/pulls/monogramm/docker-__app_slug__.svg)](https://hub.docker.com/r/monogramm/docker-__app_slug__/)
-[![Docker Version](https://images.microbadger.com/badges/version/monogramm/docker-__app_slug__.svg)](https://microbadger.com/images/monogramm/docker-__app_slug__)
-[![Docker Size](https://images.microbadger.com/badges/image/monogramm/docker-__app_slug__.svg)](https://microbadger.com/images/monogramm/docker-__app_slug__)
-[![GitHub stars](https://img.shields.io/github/stars/Monogramm/docker-__app_slug__?style=social)](https://github.com/Monogramm/docker-__app_slug__)
+[![Docs](https://img.shields.io/badge/Docs-Github%20Pages-blue)](https://monogramm.github.io/dokos/)
+[![Build Status](https://travis-ci.org/Monogramm/docker-dokos-ext.svg)](https://travis-ci.org/Monogramm/docker-dokos-ext)
+[![Docker Automated buid](https://img.shields.io/docker/cloud/build/monogramm/docker-dokos-ext.svg)](https://hub.docker.com/r/monogramm/docker-dokos-ext/)
+[![Docker Pulls](https://img.shields.io/docker/pulls/monogramm/docker-dokos-ext.svg)](https://hub.docker.com/r/monogramm/docker-dokos-ext/)
+[![Docker Version](https://images.microbadger.com/badges/version/monogramm/docker-dokos-ext.svg)](https://microbadger.com/images/monogramm/docker-dokos-ext)
+[![Docker Size](https://images.microbadger.com/badges/image/monogramm/docker-dokos-ext.svg)](https://microbadger.com/images/monogramm/docker-dokos-ext)
+[![GitHub stars](https://img.shields.io/github/stars/Monogramm/docker-dokos-ext?style=social)](https://github.com/Monogramm/docker-dokos-ext)
 
-# **__app_name__** Docker image
+# Extended **Dokos** Docker image
 
-Docker image for **__app_name__**.
+Extended Docker image for **Dokos** with additional apps.
 
-:construction: **This image is still in development!**
+:warning: **This image is still in beta!**
 
-## What is **__app_name__**
+Additional apps:
 
-__app_description__
+-   <https://github.com/Monogramm/erpnext_autoinstall>
+-   <https://github.com/Monogramm/erpnext_ocr>
+-   <https://github.com/Monogramm/recod_frappe_devtools>
+-   <https://github.com/Monogramm/recod_erpnext_design>
+-   <https://github.com/Monogramm/frappe_pwa>
+-   <https://github.com/britlog/erpnext_france>
+-   <https://github.com/DOKOS-IO/mautic> (might be removed depending on dokos-io/mautic#3)
 
-> [**__app_name__**](__app_url__)
+Possible additional apps:
+
+-   <https://github.com/vishdha/transport_management_system> (removed due to [vishdha/transport_management_system#5](https://github.com/vishdha/transport_management_system/issues/5))
+
+## What is **Dokos**
+
+Open Source ERP built for the web
+
+> [**Dokos**](https://dokos.io/)
 
 ## Supported tags
 
-[Dockerhub monogramm/docker-__app_slug__](https://hub.docker.com/r/monogramm/docker-__app_slug__/)
+[Dockerhub monogramm/docker-dokos-ext](https://hub.docker.com/r/monogramm/docker-dokos-ext/)
 
--   `alpine` `latest`
--   `debian`
+-   Dokos 1.4
+    -   `v1.4`
+
+-   Dokos 1.3
+    -   `v1.3`
 
 ## How to run this image
 
-<!--
-    If based on official images, refer to official doc:
+See **Dokos** base image documentation for details.
 
-See **__app_name__** base image documentation for details.
+> [**Monogramm Docker Dokos** GitHub](https://github.com/Monogramm/docker-dokos)
 
-> [**__app_name__** GitHub](https://github.com/__app_owner_slug__/__app_slug__)
-
-> [**__app_name__** DockerHub](https://hub.docker.com/r/__app_owner_slug__/docker-__app_slug__-base/)
-
--->
+> [**Monogramm Docker Dokos** DockerHub](https://hub.docker.com/r/monogramm/docker-dokos/)
 
 ## Questions / Issues
 
-If you got any questions or problems using the image, please visit our [Github Repository](https://github.com/Monogramm/docker-__app_slug__) and write an issue.
+If you got any questions or problems using the image, please visit our [Github Repository](https://github.com/Monogramm/docker-dokos-ext) and write an issue.
 
 
 [uri_license]: http://www.gnu.org/licenses/agpl.html
