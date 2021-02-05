@@ -18,6 +18,7 @@ variants=(
 
 min_version='1.3'
 dockerLatest='1.4'
+dockerDefaultVariant='slim-buster'
 
 
 # version_greater_or_equal A B returns whether A >= B
@@ -65,9 +66,11 @@ latestsFrappePwa=( $( curl -fsSL 'https://api.github.com/repos/Monogramm/frappe_
 
 # Remove existing images
 echo "reset docker images"
-rm -rf ./images/*
+rm -rf ./images/
+mkdir ./images/
 
 echo "update docker images"
+readmeTags=
 travisEnv=
 for latest in "${latests[@]}"; do
 	version=$(echo "$latest" | cut -d. -f1-2)
@@ -132,26 +135,29 @@ for latest in "${latests[@]}"; do
 			' "$dir/Dockerfile"
 
 			# Create a list of "alias" tags for DockerHub post_push
-			if [ "$latest" = 'develop' ]; then
-				if [ "$variant" = 'slim-buster' ]; then
-					echo "$latest-$variant $latest " > "$dir/.dockertags"
+			if [ "$version" = "v$dockerLatest" ]; then
+				if [ "$variant" = "$dockerDefaultVariant" ]; then
+					export DOCKER_TAGS="$latest-$variant $version-$variant $variant $latest $version latest "
 				else
-					echo "$latest-$variant " > "$dir/.dockertags"
+					export DOCKER_TAGS="$latest-$variant $version-$variant $variant "
 				fi
-			elif [ "$version" = "v$dockerLatest" ]; then
-				if [ "$variant" = 'slim-buster' ]; then
-					echo "$latest-$variant $version-$variant $variant $latest $version latest " > "$dir/.dockertags"
+			elif [ "$version" = "$latest" ]; then
+				if [ "$variant" = "$dockerDefaultVariant" ]; then
+					export DOCKER_TAGS="$latest-$variant $latest "
 				else
-					echo "$latest-$variant $version-$variant $variant " > "$dir/.dockertags"
+					export DOCKER_TAGS="$latest-$variant "
 				fi
 			else
-				if [ "$variant" = 'slim-buster' ]; then
-					echo "$latest-$variant $version-$variant $latest $version " > "$dir/.dockertags"
+				if [ "$variant" = "$dockerDefaultVariant" ]; then
+					export DOCKER_TAGS="$latest-$variant $version-$variant $latest $version "
 				else
-					echo "$latest-$variant $version-$variant " > "$dir/.dockertags"
+					export DOCKER_TAGS="$latest-$variant $version-$variant "
 				fi
 			fi
+			echo "${DOCKER_TAGS} " > "$dir/.dockertags"
 
+			# Add README tags
+			readmeTags="$readmeTags\n-   ${DOCKER_TAGS} (\`$dir/Dockerfile\`)"
 
 			# Add Travis-CI env var
 			travisEnv='\n  - VERSION='"$version"' VARIANT='"$variant"' DATABASE=mariadb'"$travisEnv"
@@ -166,6 +172,11 @@ for latest in "${latests[@]}"; do
 	fi
 
 done
+
+# update README.md
+sed '/^<!-- >Docker Tags -->/,/^<!-- <Docker Tags -->/{/^<!-- >Docker Tags -->/!{/^<!-- <Docker Tags -->/!d}}' README.md > README.md.tmp
+sed -e "s|<!-- >Docker Tags -->|<!-- >Docker Tags -->\n$readmeTags\n|g" README.md.tmp > README.md
+rm README.md.tmp
 
 # update .travis.yml
 travis="$(awk -v 'RS=\n\n' '$1 == "env:" && $2 == "#" && $3 == "Environments" { $0 = "env: # Environments'"$travisEnv"'" } { printf "%s%s", $0, RS }' .travis.yml)"
