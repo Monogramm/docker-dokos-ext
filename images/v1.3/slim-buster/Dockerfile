@@ -1,6 +1,6 @@
 ##
-##    Docker image for Dokos.
-##    Copyright (C) 2020  Monogramm
+##    Extended Docker image for Dokos with additional apps.
+##    Copyright (C) 2021 Monogramm
 ##
 ##    This program is free software: you can redistribute it and/or modify
 ##    it under the terms of the GNU Affero General Public License as published
@@ -32,7 +32,7 @@ ARG ERPNEXT_FRANCE=master
 ARG MAUTIC=master
 
 # Build environment variables
-ENV DODOCK_APP_PROTECTED='frappe erpnext erpnext_autoinstall'
+ENV DODOCK_APP_PROTECTED='frappe,erpnext,erpnext_autoinstall'
 
 USER root
 
@@ -117,7 +117,7 @@ LABEL maintainer="Monogramm maintainers <opensource at monogramm dot io>" \
       org.label-schema.name="Dokos" \
       org.label-schema.description="Open Source ERP built for the web" \
       org.label-schema.url="https://dokos.io/" \
-      org.label-schema.vendor="Dokos" \
+      org.label-schema.vendor="DOKOS SAS" \
       org.label-schema.version=$VERSION \
       org.label-schema.schema-version="1.0" \
       org.opencontainers.image.revision=$VCS_REF \
@@ -126,6 +126,6 @@ LABEL maintainer="Monogramm maintainers <opensource at monogramm dot io>" \
       org.opencontainers.image.title="Dokos" \
       org.opencontainers.image.description="Open Source ERP built for the web" \
       org.opencontainers.image.url="https://dokos.io/" \
-      org.opencontainers.image.vendor="Dokos" \
+      org.opencontainers.image.vendor="DOKOS SAS" \
       org.opencontainers.image.version=$VERSION \
       org.opencontainers.image.authors="Monogramm maintainers <opensource at monogramm dot io>"
