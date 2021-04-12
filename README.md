@@ -16,6 +16,9 @@ Extended Docker image for **Dokos** with additional apps.
 Additional apps:
 
 -   <https://github.com/Monogramm/erpnext_autoinstall>
+
+In progress additional apps:
+
 -   <https://github.com/Monogramm/erpnext_ocr>
 -   <https://github.com/Monogramm/recod_frappe_devtools>
 -   <https://github.com/Monogramm/recod_erpnext_design>
