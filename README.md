@@ -39,8 +39,6 @@ Open Source ERP built for the web
 
 <!-- >Docker Tags -->
 
--   v1.4.11-slim-buster v1.4-slim-buster v1.4.11 v1.4  (`images/v1.4/slim-buster/Dockerfile`)
--   v1.4.11-alpine3.12 v1.4-alpine3.12  (`images/v1.4/alpine3.12/Dockerfile`)
 -   develop-slim-buster develop  (`images/develop/slim-buster/Dockerfile`)
 -   develop-alpine3.12  (`images/develop/alpine3.12/Dockerfile`)
 

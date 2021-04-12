@@ -16,7 +16,7 @@ variants=(
   alpine3.12
 )
 
-min_version='1.4'
+min_version='2.0'
 dockerLatest='develop'
 dockerDefaultVariant='slim-buster'
 
