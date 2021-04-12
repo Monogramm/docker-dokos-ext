@@ -15,27 +15,28 @@ if [ ! -f "./sites/apps.txt" ] || [ ! -f "./sites/.docker-app-init" ] || [ ! -f 
     exit 1
 fi
 
-echo "Checking main containers are reachable..."
-if ! ping -c 10 -q dokos_db ; then
-    echo 'Database container is not responding!'
-    echo 'Check the following logs for details:'
-    tail -n 100 logs/*.log
-    exit 2
-fi
-
-if ! ping -c 10 -q dokos_app ; then
-    echo 'App container is not responding!'
-    echo 'Check the following logs for details:'
-    tail -n 100 logs/*.log
-    exit 4
-fi
-
-if ! ping -c 10 -q dokos_web ; then
-    echo 'Web container is not responding!'
-    echo 'Check the following logs for details:'
-    tail -n 100 logs/*.log
-    exit 8
-fi
+# FIXME Ping permission denied on alpine
+#echo "Checking main containers are reachable..."
+#if ! ping -c 10 -q dokos_db ; then
+#    echo 'Database container is not responding!'
+#    echo 'Check the following logs for details:'
+#    tail -n 100 logs/*.log
+#    exit 2
+#fi
+#
+#if ! ping -c 10 -q dokos_app ; then
+#    echo 'App container is not responding!'
+#    echo 'Check the following logs for details:'
+#    tail -n 100 logs/*.log
+#    exit 4
+#fi
+#
+#if ! ping -c 10 -q dokos_web ; then
+#    echo 'Web container is not responding!'
+#    echo 'Check the following logs for details:'
+#    tail -n 100 logs/*.log
+#    exit 8
+#fi
 
 echo "Checking bench environment..."
 bench doctor
